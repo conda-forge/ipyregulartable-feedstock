@@ -1,5 +1,5 @@
 {% set name = "ipyregulartable" %}
-{% set version = "0.2.0" %}
+{% set version = "0.2.1" %}
 
 
 package:
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/ipyregulartable-{{ version }}.tar.gz
-  sha256: 4efe0428c76baefd549274db29697dd3ec520280f90fde67654b103d92cce5da
+  sha256: 27a074a386139316c89ad1969f8225ca298688837182ddccb93498805ca5bb15
 
 build:
   number: 0
