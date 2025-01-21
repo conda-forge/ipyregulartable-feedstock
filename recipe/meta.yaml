@@ -1,43 +1,43 @@
-{% set name = "ipyregulartable" %}
 {% set version = "0.2.1" %}
 
-
 package:
-  name: {{ name }}
+  name: ipyregulartable
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/ipyregulartable-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/i/ipyregulartable/ipyregulartable-{{ version }}.tar.gz
   sha256: 27a074a386139316c89ad1969f8225ca298688837182ddccb93498805ca5bb15
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script:
-    - {{ PYTHON }} -m pip install . -vv --no-deps
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
     - cd js && yarn --production && yarn licenses generate-disclaimer > ../JS_LICENSES
 
 requirements:
   build:
-    - yarn
+    - nodejs 18.*
+    - yarn <2
   host:
     - jupyter-packaging
     - pip
-    - python >=3.6
+    - python {{ python_min }}
   run:
     - ipywidgets >=7.5.1
     - numpy
     - pandas >=0.22
-    - python >=3.6
+    - python >={{ python_min }}
 
 test:
   imports:
     - ipyregulartable
     - ipyregulartable.datamodel
-  commands:
-    - pip check
   requires:
     - pip
+    - python {{ python_min }}
+  commands:
+    - pip check
 
 about:
   home: https://github.com/jpmorganchase/ipyregulartable
