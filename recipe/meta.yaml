@@ -17,6 +17,7 @@ build:
 
 requirements:
   build:
+    - nodejs 18.*
     - yarn <2
   host:
     - jupyter-packaging
