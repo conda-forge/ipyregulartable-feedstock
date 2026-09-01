@@ -1,14 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 schema_version: 1
 
 context:
   version: "0.2.1"
+  python_check_max: "3.14"
 
 package:
   name: ipyregulartable
   version: ${{ version }}
 
 source:
-  url: https://pypi.org/packages/source/i/ipyregulartable/ipyregulartable-${{ version }}.tar.gz
+  url: https://files.pythonhosted.org/packages/source/i/ipyregulartable/ipyregulartable-${{ version }}.tar.gz
   sha256: 27a074a386139316c89ad1969f8225ca298688837182ddccb93498805ca5bb15
 
 build:
@@ -20,12 +22,12 @@ build:
 
 requirements:
   build:
-    - nodejs 18.*
+    - nodejs >=24,<25
     - yarn <2
   host:
     - jupyter-packaging
     - pip
-    - python ${{ python_min }}
+    - python ${{ python_min }}.*
   run:
     - ipywidgets >=7.5.1
     - numpy
@@ -39,8 +41,8 @@ tests:
         - ipyregulartable.datamodel
       pip_check: true
       python_version:
-        - ${{ python_min }}
-        - "*"
+        - ${{ python_min }}.*
+        - ${{ python_check_max }}.*
 
 about:
   summary: ipywidgets wrapper around regular-table
@@ -48,7 +50,8 @@ about:
   license_file:
     - LICENSE
     - JS_LICENSES
-  homepage: https://github.com/jpmorganchase/ipyregulartable
+  homepage: https://pypi.org/project/ipyregulartable
+  repository: https://github.com/jpmorganchase/ipyregulartable
 
 extra:
   recipe-maintainers:
