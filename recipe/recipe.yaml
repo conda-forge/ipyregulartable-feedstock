@@ -4,6 +4,7 @@ schema_version: 1
 context:
   version: "0.2.1"
   python_check_max: "3.14"
+  grep: ${{ "grep -iE" if unix else "findstr /c" }}
 
 package:
   name: ipyregulartable
@@ -18,12 +19,8 @@ build:
   noarch: python
   script:
     - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
-    - cd js && yarn --production && yarn licenses generate-disclaimer > ../JS_LICENSES
 
 requirements:
-  build:
-    - nodejs >=24,<25
-    - yarn <2
   host:
     - jupyter-packaging
     - pip
@@ -43,13 +40,22 @@ tests:
       python_version:
         - ${{ python_min }}.*
         - ${{ python_check_max }}.*
+  - requirements:
+      run:
+        - jupyterlab
+        - pytest
+        - python ${{ python_min }}.*
+    script:
+      - pytest -vv --tb=long --color=yes --pyargs ipyregulartable
+      - jupyter labextension list
+      - jupyter labextension list 2>&1 | ${{ grep }} "${{ version | replace('.', '\\.') }}.*enabled.*OK"
 
 about:
   summary: ipywidgets wrapper around regular-table
   license: Apache-2.0
   license_file:
     - LICENSE
-    - JS_LICENSES
+    - ipyregulartable/labextension/static/third-party-licenses.json
   homepage: https://pypi.org/project/ipyregulartable
   repository: https://github.com/jpmorganchase/ipyregulartable
 
